@@ -17,7 +17,7 @@ public class PhraseSolver
   public PhraseSolver()
   {
     player1 = new Player();
-    player2 = null;
+    player2 = new Player();
     game = new Board();
     solved = false;
   }
@@ -49,9 +49,9 @@ public class PhraseSolver
       if(currentPlayer == 1)
       {
         currentPlayer++;
-        System.out.print("Current Player: ");
+        System.out.print("Current Guesser: ");
         System.out.println(player1.getName());
-        System.out.println("Current Phrase: " + Board.getSolvedPhrase());
+        System.out.println("Mystery Phrase: " + Board.getSolvedPhrase());
         System.out.println("Guess a letter or a phrase");
         guess = input.nextLine();
         if (guess.length() == 1)
@@ -85,7 +85,43 @@ public class PhraseSolver
         System.out.println();
 
       }
-
+        if (currentPlayer == 2)
+        {
+          System.out.println("Current Guesser: " + player2.getName());
+          System.out.println("Mystery Phrase: " + Board.getSolvedPhrase());
+          System.out.println("Guess a letter or phrase");
+          guess = input.nextLine();
+          if (guess.length() == 1)
+          {
+            currentPlayer--;
+            boolean letter = Board.guessLetter(guess);
+            if (letter == true)
+            {
+              System.out.println("Found the letter " + guess + " in the phrase!");
+              player2.points++;
+            }
+            else
+            {
+              System.out.println("Letter not found");
+            }
+          }
+          else
+          {
+            currentPlayer--;
+            if (Board.isSolved(guess))
+            {
+              solved = true;
+              System.out.println("Congrats you solved the phrase!");
+              System.out.println("Phrase: " + Board.phrase());
+            }
+            else
+            {
+              System.out.println("Wrong guess");
+            }
+          }
+          System.out.println("Points: " + player2.getPoints());
+          System.out.println();
+        }
 
       //solved = true; 
     } 
